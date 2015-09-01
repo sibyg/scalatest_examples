@@ -5,6 +5,7 @@ object Countries extends Enumeration {
 }
 
 import Countries.{Value => Country}
+
 case class Player(id: Int, name: String, country: Country)
 
 case class MatchResult(winner: Int, loser: Int)
@@ -22,10 +23,8 @@ trait PlayerDatabase {
 }
 
 class MatchResultObserver(playerDatabase: PlayerDatabase, countryLeaderboard: CountryLeaderboard) {
-  def recordMatchResult(matchResult: MatchResult) = {
-    val winner: Player = playerDatabase.getPlayerById(matchResult.winner)
-    countryLeaderboard addVictoryForCountry winner.country
+  def recordMatchResult(matchResult: MatchResult) {
+    countryLeaderboard addVictoryForCountry playerDatabase.getPlayerById(matchResult.winner).country
   }
-
 }
 
